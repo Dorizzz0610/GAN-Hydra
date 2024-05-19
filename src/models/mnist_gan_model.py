@@ -49,7 +49,21 @@ class MNISTGANModel(LightningModule):
 
     def test_step(self, batch, batch_idx) -> Union[Tensor, Dict[str, Any], None]:
         # TODO: if you have time, try implementing a test step
-        raise NotImplementedError
+        imgs, labels = batch
+        batch_size = imgs.shape[0]
+        z = torch.randn(batch_size, self.hparams.latent_dim, device=self.device)
+        generated_imgs = self.generator(z, labels)
+
+        # If needed, add some metrics here
+
+        generated_imgs = (generated_imgs + 1) / 2
+        if self.trainer.logger:
+            self.log_images(generated_imgs, 'test/generated_imgs', batch_idx)
+
+        return None
+
+
+
 
     def step(self, batch, batch_idx, optimizer_idx=None) -> Tuple[Dict[str, Tensor], Optional[Tensor]]:
         # TODO: implement the step method of the GAN model.
