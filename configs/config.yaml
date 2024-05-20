@@ -2,8 +2,9 @@
 
 # specify here default training configuration
 defaults:
-  - model: mnist_model.yaml
+  - _self_
   - trainer: default.yaml
+  - model: mnist_gan_model.yaml
   - datamodule: mnist_datamodule.yaml
   - callbacks: default.yaml # set this to null if you don't want to use callbacks
   - logger: null # set logger here or use command line (e.g. `python run.py logger=wandb`)
@@ -12,7 +13,6 @@ defaults:
   - hparams_search: null
 
   - hydra: default.yaml
-  - _self_
 
   # enable color logging
   - override hydra/hydra_logging: colorlog
